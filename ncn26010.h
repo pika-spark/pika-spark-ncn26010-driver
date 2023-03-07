@@ -84,6 +84,8 @@ private:
     Read  = 0,
     Write = 1,
   };
+
+  static uint32_t calc_parity(CommandHeader const cmd_hdr);
 };
 
 #endif /* PIKA_SPARK_NCN26010_DRIVER_NCN26010_H */

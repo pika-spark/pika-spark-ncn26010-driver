@@ -31,25 +31,6 @@ NCN26010::NCN26010(std::shared_ptr<SPI> const spi)
 
 std::optional<uint32_t> NCN26010::read_reg(MemoryMapSelect const mms, RegAddr const reg_addr)
 {
-  auto calc_parity = [](CommandHeader const cmd_hdr) -> uint32_t
-  {
-    size_t bit_set_cnt = 0;
-
-    for(size_t bit = 0; bit < 32; bit++)
-    {
-      auto isBitSet = [](uint32_t const data, size_t const bit)->bool { return ((data & (1<<bit)) == static_cast<uint32_t>(1<<bit)); };
-      if (isBitSet(cmd_hdr.data, bit))
-        bit_set_cnt++;
-    }
-
-    bool is_bit_set_cnt_even = (bit_set_cnt % 2) == 0;
-
-    if (is_bit_set_cnt_even)
-      return 1;
-    else
-      return 0;
-  };
-
   CommandHeader cmd_header_tx;
 
   cmd_header_tx.bits.DNC  = static_cast<uint32_t>(CommandType::Control);
@@ -97,3 +78,26 @@ std::optional<uint32_t> NCN26010::read_reg(MemoryMapSelect const mms, RegAddr co
 
   return std::nullopt;
 }
+
+/**************************************************************************************
+ * PRIVATE MEMBER FUNCTIONS
+ **************************************************************************************/
+
+uint32_t NCN26010::calc_parity(CommandHeader const cmd_hdr)
+{
+  size_t bit_set_cnt = 0;
+
+  for(size_t bit = 0; bit < 32; bit++)
+  {
+    auto isBitSet = [](uint32_t const data, size_t const bit)->bool { return ((data & (1<<bit)) == static_cast<uint32_t>(1<<bit)); };
+    if (isBitSet(cmd_hdr.data, bit))
+      bit_set_cnt++;
+  }
+
+  bool is_bit_set_cnt_even = (bit_set_cnt % 2) == 0;
+
+  if (is_bit_set_cnt_even)
+    return 1;
+  else
+    return 0;
+};
