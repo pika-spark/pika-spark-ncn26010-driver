@@ -11,6 +11,7 @@ Linux user space driver for the [NCN26010](https://www.onsemi.com/products/inter
 
 ### How-to-build
 ```bash
+docker pull alpine:latest
 docker run -it -u 0 --device /dev/spidev0.0 --device /dev/spidev1.0 alpine:latest sh
 apk add git g++ make cmake linux-headers
 cd /tmp
