@@ -11,6 +11,13 @@ Linux user space driver for the [NCN26010](https://www.onsemi.com/products/inter
 </p>
 
 ### How-to-build
+* Enable [spidev](https://www.kernel.org/doc/Documentation/spi/spidev) to access SPI from userspace
+```bash
+modprobe spidev
+sudo chmod ugo+rw /dev/spidev0.0
+sudo chmod ugo+rw /dev/spidev1.0
+```
+* Build user space driver within Docker container with access to SPI
 ```bash
 docker pull alpine:latest
 docker run -it -u 0 --device /dev/spidev0.0 --device /dev/spidev1.0 alpine:latest sh
