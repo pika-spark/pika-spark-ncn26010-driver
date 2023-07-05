@@ -13,15 +13,15 @@ GPIO_NRST_PIN = 21
 GPIO_NRST_NUM = $(($GPIO_NRST_PORT - 1) * 32 + $GPIO_NRST_PIN)
 
 function finish {
-  echo $GPIO_NIRQ_NUM > /dev/gpio/unexport
-  echo $GPIO_NRST_NUM > /dev/gpio/unexport
+  sudo echo $GPIO_NIRQ_NUM > /sys/class/gpio/unexport
+  sudo echo $GPIO_NRST_NUM > /sys/class/gpio/unexport
 }
 trap finish EXIT
 
-echo $GPIO_NIRQ_NUM > /dev/gpio/export
-echo $GPIO_NRST_NUM > /dev/gpio/export
+sudo echo $GPIO_NIRQ_NUM > /sys/class/gpio/export
+sudo echo $GPIO_NRST_NUM > /sys/class/gpio/export
 
 modprobe spidev
 sudo chmod ugo+rw /dev/spidev0.0
 
-docker run -it -u 0 --device /dev/spidev0.0 sh
+docker run -it -u 0 --device /dev/spidev0.0 -v /sys/class/gpio:/sys/class/gpio sh
