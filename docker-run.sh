@@ -24,4 +24,4 @@ sudo echo $GPIO_NRST_NUM > /sys/class/gpio/export
 modprobe spidev
 sudo chmod ugo+rw /dev/spidev0.0
 
-docker run -it -u 0 --device /dev/spidev0.0 -v /sys/class/gpio:/sys/class/gpio sh
+docker run -it --rm -u 0 --device /dev/spidev0.0 -v /sys/class/gpio:/sys/class/gpio sh
