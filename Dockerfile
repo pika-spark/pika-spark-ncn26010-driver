@@ -10,4 +10,3 @@ RUN apk add git g++ make cmake linux-headers && \
     cd build && \
     cmake .. && \
     make
-
