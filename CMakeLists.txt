@@ -5,6 +5,7 @@ project("pika-spark-ncn26010-driver")
 ##########################################################################
 add_executable(${PROJECT_NAME} 
   main.cpp
+  gpio-sysfs.cpp
   ncn26010.cpp
   spi.cpp
 )
