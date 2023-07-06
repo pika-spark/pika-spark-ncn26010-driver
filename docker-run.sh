@@ -22,9 +22,6 @@ trap finish EXIT
 echo $GPIO_NIRQ_NUM > /sys/class/gpio/export
 echo $GPIO_NRST_NUM > /sys/class/gpio/export
 
-echo in > /sys/class/gpio/gpio$GPIO_NIRQ_NUM/direction
-echo out > /sys/class/gpio/gpio$GPIO_NRST_NUM/direction
-
 modprobe spidev
 chmod ugo+rw /dev/spidev0.0
 
