@@ -14,5 +14,5 @@ Linux user space driver for the [NCN26010](https://www.onsemi.com/products/inter
 ```bash
 git clone https://github.com/pika-spark/pika-spark-ncn26010-driver && cd pika-spark-ncn26010-driver
 ./docker-build.sh
-./docker-run.sh
+sudo ./docker-run.sh
 ```
