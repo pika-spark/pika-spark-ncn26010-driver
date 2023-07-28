@@ -41,7 +41,7 @@ int main(int /* argc */, char ** /* argv */) try
   gpio_nrst->gpio_set_value(1);
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  auto spi = std::make_shared<SPI>("/dev/spidev0.0", SPI_MODE_0, 8, 1000000);
+  auto spi = std::make_shared<SPI>("/dev/spidev1.0", SPI_MODE_0, 8, 1000000);
   auto ncn26010 = std::make_shared<NCN26010>(spi);
 
   auto idver = ncn26010->read_reg(NCN26010::MemoryMapSelect::MMS_0, NCN26010::RegAddr::IDVER);
