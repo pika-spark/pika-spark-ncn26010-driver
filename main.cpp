@@ -5,18 +5,43 @@
  * Contributors: https://github.com/107-systems/pika-spark-ncn26010-driver/graphs/contributors.
  */
 
+/**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
 #include <cstdlib>
 
 #include <memory>
+#include <chrono>
+#include <thread>
 #include <iostream>
 #include <stdexcept>
 
 #include "spi.h"
 #include "ncn26010.h"
+#include "gpio-sysfs.h"
+
+/**************************************************************************************
+ * CONSTANT
+ **************************************************************************************/
+
+static int constexpr nRST_PIN =  85;
+static int constexpr nIRQ_PIN = 132;
+
+/**************************************************************************************
+ * MAIN
+ **************************************************************************************/
 
 int main(int /* argc */, char ** /* argv */) try
 {
-  auto spi = std::make_shared<SPI>("/dev/spidev0.0", SPI_MODE_0, 8, 1000000);
+  auto const gpio_nrst = std::make_shared<SysGPIO>(nRST_PIN);
+  gpio_nrst->gpio_set_dir(true);
+  gpio_nrst->gpio_set_value(0);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  gpio_nrst->gpio_set_value(1);
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+  auto spi = std::make_shared<SPI>("/dev/spidev1.0", SPI_MODE_0, 8, 1000000);
   auto ncn26010 = std::make_shared<NCN26010>(spi);
 
   auto idver = ncn26010->read_reg(NCN26010::MemoryMapSelect::MMS_0, NCN26010::RegAddr::IDVER);

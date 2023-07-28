@@ -23,6 +23,6 @@ echo $GPIO_NIRQ_NUM > /sys/class/gpio/export
 echo $GPIO_NRST_NUM > /sys/class/gpio/export
 
 modprobe spidev
-chmod ugo+rw /dev/spidev0.0
+chmod ugo+rw /dev/spidev1.0
 
-sudo -u fio docker run -it --rm -u 0 --privileged --device /dev/spidev0.0 -v /sys/class/gpio:/sys/class/gpio pika_spark_ncn26010_driver
+sudo -u fio docker run -it --rm -u 0 --privileged --device /dev/spidev1.0 -v /sys/class/gpio:/sys/class/gpio pika_spark_ncn26010_driver
